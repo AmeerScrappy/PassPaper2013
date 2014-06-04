@@ -10,12 +10,14 @@ import com.ameer.testweb.domain.employees.Address;
 import com.ameer.testweb.domain.employees.Contact;
 import com.ameer.testweb.domain.employees.Demographics;
 import com.ameer.testweb.domain.employees.Employee;
-import com.ameer.testweb.domain.employees.Identity;
+import com.ameer.testweb.domain.employees.Identities;
 import com.ameer.testweb.domain.employees.Names;
 import com.ameer.testweb.repository.AddressRepository;
 import com.ameer.testweb.repository.EmployeeRepository;
-import com.ameer.testweb.repository.IdentityRepository;
+import com.ameer.testweb.repository.IdentitiesRepository;
 import com.ameer.testweb.test.ConnectionConfigTest;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.testng.annotations.AfterClass;
@@ -34,7 +36,7 @@ public class EmployeeRepositoryTest {
     private Long id;
     private EmployeeRepository EmpRepo;
     private AddressRepository AddressRepo;
-    private IdentityRepository IdentityRepo;
+    private IdentitiesRepository IdentityRepo;
     
     public EmployeeRepositoryTest() {
     }
@@ -45,6 +47,8 @@ public class EmployeeRepositoryTest {
      @Test
      public void createEmployee() {
          
+         List<Identities> ids = new ArrayList<>();
+         
          Names fullname = new Names.Builder("Ameer")
                  .lastname("Mallagie")
                  .build();
@@ -54,17 +58,26 @@ public class EmployeeRepositoryTest {
          Contact contact = new Contact.Builder("0769594969")
                  .homeNum("0219527100")
                  .build();
+         
          AddressRepo = ctx.getBean(AddressRepository.class);
          Address address = new Address.Builder("40 Someplace")
                  .postalCode(7650)
                  .build();
          AddressRepo.save(address);
-//         IdentityRepo = ctx.getBean(IdentityRepository.class);
-//         Identity identity = new Identity.Builder("Captain")
-//                 .idValue("CAP213")
-//                 .build();
-//         IdentityRepo.save(identity);
-//         identity doesnt seem to wanna work
+         
+         IdentityRepo = ctx.getBean(IdentitiesRepository.class);
+         Identities identity = new Identities.Builder("Captain")
+                 .idValue("CAP213")
+                 .build();
+         Identities identities = new  Identities.Builder("Superhero")
+                 .idValue("BAT312")
+                 .build();
+         ids.add(identity);
+         ids.add(identities);
+         IdentityRepo.save(identity);
+         IdentityRepo.save(identities);
+         
+         
          
          
          
@@ -74,6 +87,7 @@ public class EmployeeRepositoryTest {
                  .demographics(demo)
                  .contact(contact)
                  .address(address)
+                 .identity(ids)
                  .numOfDependants(2)
                  .build();
          EmpRepo.save(emp);

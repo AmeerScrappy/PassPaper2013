@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * @author Scrappy
  */
 @Entity
-public class Identity implements Serializable {
+public class Identities implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,11 +25,11 @@ public class Identity implements Serializable {
     private String idType;
     private String idValue;
 
-    private Identity(){
+    private Identities(){
 
     }
 
-    private Identity(Builder build) {
+    private Identities(Builder build) {
         
         id = build.id;
         idType = build.idType;
@@ -56,8 +56,8 @@ public class Identity implements Serializable {
             return this;
         }
         
-        public Identity build(){
-            return new Identity(this);
+        public Identities build(){
+            return new Identities(this);
         }
         
     }
@@ -84,10 +84,10 @@ public class Identity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Identity)) {
+        if (!(object instanceof Identities)) {
             return false;
         }
-        Identity other = (Identity) object;
+        Identities other = (Identities) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

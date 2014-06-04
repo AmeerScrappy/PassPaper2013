@@ -6,7 +6,7 @@
 
 package com.ameer.testweb.repository;
 
-import com.ameer.testweb.domain.employees.Identity;
+import com.ameer.testweb.domain.employees.Identities;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
  * @author Scrappy
  */
 @Repository
-public interface IdentityRepository extends JpaRepository<Identity, Long>{
+public interface IdentitiesRepository extends JpaRepository<Identities, Long>{
     
 }

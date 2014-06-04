@@ -12,8 +12,10 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,13 +42,13 @@ public class Employee implements Serializable {
     @Embedded
     private Contact contactInfo;
     @JoinColumn(name = "employee_id")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Identity> identities;
+    @OneToMany
+    private List<Identities> identities = new ArrayList<>();
     @OneToOne
     private Address address;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany//(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "employee_id")
-    private List<PaySlip> paySlips;
+    private List<PaySlip> paySlips = new ArrayList<>();
     @OneToOne
     private Position position;
 
@@ -74,7 +76,7 @@ public class Employee implements Serializable {
         private Names name;
         private Demographics demographics;
         private Contact contactInfo;
-        private List<Identity> identities;
+        private List<Identities> identities;
         private Address address;
         private List<PaySlip> paySlips;
         private Position position;
@@ -108,7 +110,7 @@ public class Employee implements Serializable {
             return this;
         }
         
-        public Builder identity (List<Identity> identitys){
+        public Builder identity (List<Identities> identitys){
             identities = identitys;
             return this;
         }
@@ -157,7 +159,7 @@ public class Employee implements Serializable {
         return contactInfo;
     }
 
-    public List<Identity> getIdentities() {
+    public List<Identities> getIdentities() {
         return identities;
     }
 

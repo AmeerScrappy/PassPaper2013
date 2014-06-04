@@ -13,10 +13,20 @@ import com.ameer.testweb.domain.employees.Employee;
 import com.ameer.testweb.domain.employees.Identities;
 import com.ameer.testweb.domain.employees.Names;
 import com.ameer.testweb.domain.employees.PaySlip;
+import com.ameer.testweb.domain.position.Benefits;
+import com.ameer.testweb.domain.position.Deductions;
+import com.ameer.testweb.domain.position.Job;
+import com.ameer.testweb.domain.position.Position;
+import com.ameer.testweb.domain.position.Salary;
 import com.ameer.testweb.repository.AddressRepository;
+import com.ameer.testweb.repository.BenefitsRepository;
+import com.ameer.testweb.repository.DeductionsRepository;
 import com.ameer.testweb.repository.EmployeeRepository;
 import com.ameer.testweb.repository.IdentitiesRepository;
+import com.ameer.testweb.repository.JobRepository;
 import com.ameer.testweb.repository.PaySlipRepository;
+import com.ameer.testweb.repository.PositionRepository;
+import com.ameer.testweb.repository.SalaryRepository;
 import com.ameer.testweb.test.ConnectionConfigTest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,18 +51,23 @@ public class EmployeeRepositoryTest {
     private AddressRepository AddressRepo;
     private IdentitiesRepository IdentityRepo;
     private PaySlipRepository PaySlipRepo;
+    private PositionRepository PositionRepo;
+    private JobRepository JobRepo;
+    private DeductionsRepository DeductionsRepo;
+    private SalaryRepository SalaryRepo;
+    private BenefitsRepository BenefitsRepo;
     
     public EmployeeRepositoryTest() {
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
+    
      @Test
      public void createEmployee() {
          
          List<Identities> ids = new ArrayList<>();
          List<PaySlip> slips = new ArrayList<>();
+         List<Position> ps = new ArrayList<>();
+         List<Deductions> ds = new ArrayList<>();
+         List<Benefits> b = new ArrayList<>();
          
          Names fullname = new Names.Builder("Ameer")
                  .lastname("Mallagie")
@@ -93,6 +108,42 @@ public class EmployeeRepositoryTest {
 //         PaySlip obj = PaySlipRepo.findOne(idd);
 //         PaySlipRepo.delete(obj);
          
+         BenefitsRepo = ctx.getBean(BenefitsRepository.class);
+         Benefits benefits = new Benefits.Builder("Lunch Money")
+                 .benefitValue(BigDecimal.valueOf(250.00))
+                 .build();
+         BenefitsRepo.save(benefits);
+         b.add(benefits);
+         
+         SalaryRepo = ctx.getBean(SalaryRepository.class);
+         Salary salary = new Salary.Builder(BigDecimal.valueOf(15000.00))
+                 .build();
+         SalaryRepo.save(salary);
+         
+         DeductionsRepo = ctx.getBean(DeductionsRepository.class);
+         Deductions deductions = new Deductions.Builder("Medical Aid")
+                 .deductValue(BigDecimal.valueOf(350.00))
+                 .build();
+         DeductionsRepo.save(deductions);
+         ds.add(deductions);
+         
+         PositionRepo = ctx.getBean(PositionRepository.class);
+         Position position = new Position.Builder("PRM")
+                 .status("Close")
+                 .benefit(b)
+                 .deduction(ds)
+                 .salary(salary)
+                 .build();
+         PositionRepo.save(position);
+         ps.add(position);
+         
+         JobRepo = ctx.getBean(JobRepository.class);
+         Job job = new Job.Builder("Programmer")
+                 .positions(ps)
+                 .build();
+         JobRepo.save(job);
+         
+         
          EmpRepo = ctx.getBean(EmployeeRepository.class);
          Employee emp = new Employee.Builder(1)
                  .name(fullname)
@@ -101,6 +152,7 @@ public class EmployeeRepositoryTest {
                  .address(address)
                  .paySlips(slips)
                  .identity(ids)
+                 .position(position)
                  .numOfDependants(2)
                  .build();
          EmpRepo.save(emp);

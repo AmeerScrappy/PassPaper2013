@@ -40,7 +40,7 @@ public class Employee implements Serializable {
     @Embedded
     private Contact contactInfo;
     @JoinColumn(name = "employee_id")
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Identities> identities = new ArrayList<>();
     @OneToOne
     private Address address;

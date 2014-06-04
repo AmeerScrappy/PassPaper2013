@@ -15,7 +15,6 @@ import com.ameer.testweb.repository.AddressRepository;
 import com.ameer.testweb.repository.EmployeeRepository;
 import com.ameer.testweb.services.Impl.Question5ServiceImpl;
 import com.ameer.testweb.test.ConnectionConfigTest;
-import static com.ameer.testweb.test.repository.EmployeeRepositoryTest.ctx;
 import org.junit.Assert;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

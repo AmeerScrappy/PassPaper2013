@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -164,8 +165,42 @@ public class EmployeeRepositoryTest {
                  .employee(emp)
                  .build();
          PaySlipRepo.save(newpaySlip);
+         
+         Assert.assertNotNull(emp);
      
      }
+     
+     @Test(dependsOnMethods = "createEmployee")
+     public void readEmployee(){
+         EmpRepo = ctx.getBean(EmployeeRepository.class);
+         Employee obj = EmpRepo.findOne(id);
+         
+         Assert.assertEquals(obj.getEmployeeNumber().intValue(), 1);
+     }
+     
+     @Test(dependsOnMethods = "readEmployee")
+     public void updateEmployee(){
+         EmpRepo = ctx.getBean(EmployeeRepository.class);
+         Employee e = new Employee.Builder(1)
+                 .numOfDependants(3)
+                 .build();
+         EmpRepo.save(e);
+         
+         Assert.assertEquals(e.getNumberOfDependants().intValue(), 3);
+              
+     }
+     
+     @Test(dependsOnMethods = "updateEmployee")
+     public void deleteEmployee(){
+         EmpRepo = ctx.getBean(EmployeeRepository.class);
+         Employee e = EmpRepo.findOne(id);
+         EmpRepo.delete(e);
+         
+         Employee employeeDel = EmpRepo.findOne(id);
+         
+         Assert.assertNull(employeeDel);
+     }
+     
 
     @BeforeClass
     public static void setUpClass() throws Exception {

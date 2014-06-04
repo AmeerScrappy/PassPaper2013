@@ -39,8 +39,8 @@ public class Employee implements Serializable {
     private Demographics demographics;
     @Embedded
     private Contact contactInfo;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "employee_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Identity> identities;
     @OneToOne
     private Address address;

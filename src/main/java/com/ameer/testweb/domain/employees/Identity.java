@@ -51,11 +51,6 @@ public class Identity implements Serializable {
             return this;
         }
         
-        public Builder idType(String idT){
-            idType = idT;
-            return this;
-        }
-        
         public Builder idValue(String idVal){
             idValue = idVal;
             return this;

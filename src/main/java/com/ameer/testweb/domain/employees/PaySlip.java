@@ -29,6 +29,7 @@ public class PaySlip implements Serializable {
     private BigDecimal totalDeductions;
     private BigDecimal totalTax;
     private BigDecimal netPay;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date payDate;
     
     private PaySlip() {

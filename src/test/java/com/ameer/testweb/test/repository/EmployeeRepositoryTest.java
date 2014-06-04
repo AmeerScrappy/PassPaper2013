@@ -12,10 +12,13 @@ import com.ameer.testweb.domain.employees.Demographics;
 import com.ameer.testweb.domain.employees.Employee;
 import com.ameer.testweb.domain.employees.Identities;
 import com.ameer.testweb.domain.employees.Names;
+import com.ameer.testweb.domain.employees.PaySlip;
 import com.ameer.testweb.repository.AddressRepository;
 import com.ameer.testweb.repository.EmployeeRepository;
 import com.ameer.testweb.repository.IdentitiesRepository;
+import com.ameer.testweb.repository.PaySlipRepository;
 import com.ameer.testweb.test.ConnectionConfigTest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
@@ -37,6 +40,7 @@ public class EmployeeRepositoryTest {
     private EmployeeRepository EmpRepo;
     private AddressRepository AddressRepo;
     private IdentitiesRepository IdentityRepo;
+    private PaySlipRepository PaySlipRepo;
     
     public EmployeeRepositoryTest() {
     }
@@ -48,6 +52,7 @@ public class EmployeeRepositoryTest {
      public void createEmployee() {
          
          List<Identities> ids = new ArrayList<>();
+         List<PaySlip> slips = new ArrayList<>();
          
          Names fullname = new Names.Builder("Ameer")
                  .lastname("Mallagie")
@@ -77,9 +82,16 @@ public class EmployeeRepositoryTest {
          IdentityRepo.save(identity);
          IdentityRepo.save(identities);
          
+         PaySlipRepo = ctx.getBean(PaySlipRepository.class);
+         PaySlip paySlip = new PaySlip.Builder(BigDecimal.valueOf(20000.00))
+                 .netPay(BigDecimal.valueOf(15000.00))
+                 .build();
+         slips.add(paySlip);
          
-         
-         
+//         Long idd = paySlip.getId();
+//         
+//         PaySlip obj = PaySlipRepo.findOne(idd);
+//         PaySlipRepo.delete(obj);
          
          EmpRepo = ctx.getBean(EmployeeRepository.class);
          Employee emp = new Employee.Builder(1)
@@ -87,11 +99,19 @@ public class EmployeeRepositoryTest {
                  .demographics(demo)
                  .contact(contact)
                  .address(address)
+                 .paySlips(slips)
                  .identity(ids)
                  .numOfDependants(2)
                  .build();
          EmpRepo.save(emp);
          id = emp.getId();
+         
+         PaySlipRepo = ctx.getBean(PaySlipRepository.class);
+         PaySlip newpaySlip = new PaySlip.Builder(BigDecimal.valueOf(20000.00))
+                 .netPay(BigDecimal.valueOf(15000.00))
+                 .employee(emp)
+                 .build();
+         PaySlipRepo.save(newpaySlip);
      
      }
 

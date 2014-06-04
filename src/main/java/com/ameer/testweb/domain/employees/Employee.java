@@ -8,11 +8,9 @@ package com.ameer.testweb.domain.employees;
 
 import com.ameer.testweb.domain.position.Position;
 import java.io.Serializable;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,8 +44,8 @@ public class Employee implements Serializable {
     private List<Identities> identities = new ArrayList<>();
     @OneToOne
     private Address address;
-    @OneToMany//(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "employee_id")
+//    @JoinColumn(name = "employee_id")
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<PaySlip> paySlips = new ArrayList<>();
     @OneToOne
     private Position position;

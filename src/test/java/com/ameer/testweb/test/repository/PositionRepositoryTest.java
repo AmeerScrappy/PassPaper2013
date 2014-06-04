@@ -6,7 +6,6 @@
 
 package com.ameer.testweb.test.repository;
 
-import com.ameer.testweb.repository.JobRepository;
 import com.ameer.testweb.test.ConnectionConfigTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,20 +20,16 @@ import org.testng.annotations.BeforeMethod;
  */
 public class PositionRepositoryTest {
     
-    private static ApplicationContext ctx;
-    private Long id;
-    
-    private JobRepository jobRepository;
+    public static ApplicationContext ctx;
     
     public PositionRepositoryTest() {
     }
-    
+
     // @Test
     // public void hello() {}
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        
         ctx = new AnnotationConfigApplicationContext(ConnectionConfigTest.class);
     }
 

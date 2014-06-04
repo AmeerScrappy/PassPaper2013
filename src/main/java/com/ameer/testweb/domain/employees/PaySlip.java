@@ -10,9 +10,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -31,6 +34,9 @@ public class PaySlip implements Serializable {
     private BigDecimal netPay;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date payDate;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employeeNumber")
+    private Employee employee;
     
     private PaySlip() {
     }
@@ -43,6 +49,7 @@ public class PaySlip implements Serializable {
         totalTax = build.totalTax;
         netPay = build.netPay;
         payDate = build.payDate;
+        employee = build.employee;
     }
     
     public static class Builder{
@@ -53,6 +60,7 @@ public class PaySlip implements Serializable {
         private BigDecimal totalTax;
         private BigDecimal netPay;
         private Date payDate;
+        private Employee employee;
         
         public Builder (BigDecimal gPay){
             this.grossPay = gPay;
@@ -80,6 +88,11 @@ public class PaySlip implements Serializable {
         
         public Builder payDate(Date pDate){
             payDate = pDate;
+            return this;
+        }
+        
+        public Builder employee(Employee e){
+            employee = e;
             return this;
         }
 
@@ -112,6 +125,10 @@ public class PaySlip implements Serializable {
 
     public Date getPayDate() {
         return payDate;
+    }
+
+    public Employee getEmployee() {
+        return employee;
     }
 
     @Override
